@@ -1,4 +1,4 @@
-<?php require_once('../Connections/tournamentroster.php'); ?>
+<?php require_once('../Connections/sandboxDatabase.php'); ?>
 <?php
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
@@ -42,8 +42,8 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
                        GetSQLValueString($_POST['firstname'], "text"),
                        GetSQLValueString($_POST['lastname'], "text"));
 
-  mysql_select_db($database_tournamentroster, $tournamentroster);
-  $Result1 = mysql_query($insertSQL, $tournamentroster) or die(mysql_error());
+  mysql_select_db($database_sandbox, $sandbox);
+  $Result1 = mysql_query($insertSQL, $sandbox) or die(mysql_error());
 
   $insertGoTo = "challenge_3.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -53,9 +53,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   header(sprintf("Location: %s", $insertGoTo));
 }
 
-mysql_select_db($database_tournamentroster, $tournamentroster);
+mysql_select_db($database_sandbox, $sandbox);
 $query_rsRoster = "SELECT firstname, lastname, message FROM XSSChallenge3";
-$rsRoster = mysql_query($query_rsRoster, $tournamentroster) or die(mysql_error());
+$rsRoster = mysql_query($query_rsRoster, $sandbox) or die(mysql_error());
 $row_rsRoster = mysql_fetch_assoc($rsRoster);
 $totalRows_rsRoster = mysql_num_rows($rsRoster);
 ?>
@@ -102,31 +102,29 @@ form {
   <div class="header"><img src="../_images/Logo.png" alt="Logo" width="900" height="160" />
   <?php include("../_includes/header.php"); ?>
   <!-- end .header --></div>
-  <h1>Super Secure Web Sign Up</h1>
+  <h1>Super Secure Web Forum 3</h1>
   <div class="content">
-  <p>This first challenge is relatively simple.</p>
-  <p>&nbsp;</p>
-  <p>The form on this page sends data to a localhost database and then displays the first and last name of those who sign up. Using your knowledge of HTML try adding a name that will appear in italics when displayed in the &quot;Current Applicants&quot; list. </p>
+    <p>The form on this page sends data to a database hosted on the server and then displays the name and message associated with that name. Using your knowledge of HTML and scripting, try adding a script that will prompt future visitors for login credentials before they can access this page. </p>
   <p>&nbsp;</p>
   <p>*Hint* This form has no restrictions on what can be entered into the &quot;First Name&quot; and &quot;Last Name&quot; text fields.</p>
     <p>&nbsp;</p>
     <div class="content2">
     <form name="form1" method="POST" action="<?php echo $editFormAction; ?>">
-      <table width="306" border="1">
+      <table border="1">
         <tr>
-          <td width="140">First Name: </td>
-          <td width="150" align="left">&nbsp;&nbsp;<span id="sprytextfield1">
+          <td>First Name: </td>
+          <td align="left">&nbsp;&nbsp;<span id="sprytextfield1">
             <input type="text" name="firstname" id="firstname">
           </span></td>
         </tr>
         <tr>
-          <td width="140">Last Name: </td>
-          <td width="150" align="left">&nbsp;&nbsp;<span id="spryLastName">
+          <td>Last Name: </td>
+          <td align="left">&nbsp;&nbsp;<span id="spryLastName">
             <input type="text" name="lastname" id="lastname">
           </span></td>
         </tr>
         <tr>
-          <td width="140">Message: </td>
+          <td>Message: </td>
           <td>    <p><span id="spryMessage">
             <textarea name="message" id="message" cols="45" rows="5"></textarea>
 </span></p>
@@ -139,7 +137,7 @@ form {
     </form>
     </div>
     <p>&nbsp;</p>
-    <h2>Current Applicants:</h2>
+    <h2>Message Board:</h2>
     <?php do { ?>
       <p><?php echo $row_rsRoster['firstname']; ?> <?php echo $row_rsRoster['lastname']; ?></p>
       <p><?php echo $row_rsRoster['message']; ?></p>

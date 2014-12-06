@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>UF Club Tennis</title>
+<title>PHPoor Security</title>
 <style type="text/css">
 .content {
 	padding: 10px 0;
@@ -23,8 +23,8 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
 </style>
 <![endif]-->
 <script src="SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
-<meta name="keywords" content="UF Club Tennis, about, University of Florida, tournaments, serving the community, fundraising, events, becoming a member, officers">
-<meta name="description" content="Information about the University of Florida Club Tennis team.  Including community service, fundraising, practices, etc.">
+<meta name="keywords" content="PHPoor Security">
+<meta name="description" content="session management">
 </head>
 
 <body>
@@ -36,13 +36,10 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
   <div class="sidebar1">
     
     <ul id="MenuBar2" class="MenuBarVertical">
-    <li><a href="how_it_happens.php">How It Happens</a></li>
-    <li><a href="session_management/tutorial_1.php">Tutorial 1</a></li>
-	<li><a href="session_management/tutorial_2.php">Tutorial 2</a></li>
-    <li><a href="session_management/tutorial_3.php">Tutorial 3</a></li>
-    <li><a href="session_management/tutorial_4.php">Tutorial 4</a></li>
-    <li><a href="something_else.php">Something Else</a></li>
-  </ul>
+      <li><a href="/session_management/challenge_1.php">Challenge</a></li>
+      <li><a href="session_management/tutorial_1.php">Tutorial 1</a></li>
+      <li><a href="session_management/tutorial_2.php">Tutorial 2</a></li>
+</ul>
   <p>Information on OWASP and the OWASP top ten project can be found <a href="https://www.owasp.org/index.php/Main_Page">here</a>.</p>
   <!-- end .sidebar --></div>
     <h1>Session Management</h1>
@@ -93,7 +90,7 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
   </div>
     <div id="body"><!-- body div for footer --></div>
   <div class="footer">
-    <p>UFClubTennis.com</p>
+    <p>PHPoor Security</p>
     <!-- end .footer --></div>
   <!-- end .container --></div>
 <script type="text/javascript">

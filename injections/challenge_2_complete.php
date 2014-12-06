@@ -7,11 +7,11 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
- // $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
-  //    $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
       break;    
     case "long":
     case "int":
@@ -42,16 +42,7 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
 
   mysql_select_db($database_sandbox, $sandbox);
   $Result1 = mysql_query($selectSQL, $sandbox) or die(mysql_error());
-  if (mysql_num_rows($Result1) == 0) {
-	  $insertGoTo = "challenge_2.php";
-	  if (isset($_SERVER['QUERY_STRING'])) {
-		$insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-		$insertGoTo .= $_SERVER['QUERY_STRING'];
-	  }
-	  header(sprintf("Location: %s", $insertGoTo));
-	  echo "INVALID SOMETHING";
-  }
-  else if (mysql_result($Result1, 0) == 'admin') {
+  if ($Result1 == 'Admin') {
 	  $insertGoTo = "challenge_2_complete.php";
 	  if (isset($_SERVER['QUERY_STRING'])) {
 		$insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
@@ -93,7 +84,6 @@ form {
 <link href="../SpryAssets/SpryValidationTextField.css" rel="stylesheet" type="text/css" />
 <link href="../SpryAssets/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
 <script src="../SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
-<script src="../SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
 <meta name="description" content="PHPoor Security" />
 <meta name="keywords" content="PHPoor Security challenge 1" />
 </head>
@@ -103,34 +93,16 @@ form {
   <div class="header"><img src="../_images/Logo.png" alt="Logo" width="900" height="160" />
   <?php include("../_includes/header.php"); ?>
   <!-- end .header --></div>
-  <h1>Super Secure Web Login 2</h1>
+  <h1>YOU DID IT</h1>
   <div class="content">
-  <p>Try to login as Admin:</p>
-  <p>&nbsp;</p>
-    <div class="content2">
-    <form name="form1" method="POST" action="<?php echo $editFormAction; ?>">
-      <table width="306" border="1">
-        <tr>
-          <td width="140">Password: </td>
-          <td width="150" align="left"><span id="spryPassword">
-            <input type="text" name="password" id="password">
-          </span></td>
-        </tr>
-        <tr>
-          <td colspan="2" align="center"><input type="submit" name="submit" id="submit" value="Login">  </td>
-        </tr>
-      </table>
-      <input type="hidden" name="MM_insert" value="form1">
-    </form>
-    </div>
-<!-- end .content --></div>
+  <p>Congratulations you are now ADMIN!!<!-- end .content --></p>
+  </div>
   <div id="body"><!-- body div for footer --></div>
   <div class="footer">PHPoor Security
   <!-- end .footer --></div>
   <!-- end .container --></div>
 <script type="text/javascript">
 <?php include("../_includes/menuBar1.php"); ?>
-var sprytextfield2 = new Spry.Widget.ValidationTextField("spryPassword", "none", {validateOn:["blur"]});
 </script> 
 </body>
 </html>

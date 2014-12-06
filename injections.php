@@ -36,14 +36,11 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
   <div class="sidebar1">
     
     <ul id="MenuBar2" class="MenuBarVertical">
-    <li><a href="SQL.php">SQL Injections</a>    </li>
-    <li><a href="cross_site_scripting.php">Cross Site Scripting</a></li>
-	<li><a href="preventing_injections.php">Preventing Injections</a></li>
-    <li><a href="injections/challenge_1.php">Challenge 1</a></li>
+<li><a href="injections/challenge_1.php">Challenge 1</a></li>
     <li><a href="injections/challenge_2.php">Challenge 2</a></li>
-    <li><a href="injections/challenge_3.php">Challenge 3</a></li>
-    <li><a href="injections/challenge_4.php">Challenge 4</a></li>
-  </ul>
+<li><a href="cross_site_scripting.php">Cross Site Scripting</a></li>
+    <li><a href="preventing_injections.php">Preventing Injections</a></li>
+    </ul>
   <p>Information on OWASP and the OWASP top ten project can be found <a href="https://www.owasp.org/index.php/Main_Page">here</a>.</p>
   <!-- end .sidebar --></div>
     <h1>Injections</h1>

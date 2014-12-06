@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>UF Club Tennis</title>
+<title>PHPoor Security</title>
 <style type="text/css">
 .content {
 	padding: 10px 0;
@@ -23,8 +23,8 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
 </style>
 <![endif]-->
 <script src="SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
-<meta name="keywords" content="UF Club Tennis, about, University of Florida, tournaments, serving the community, fundraising, events, becoming a member, officers">
-<meta name="description" content="Information about the University of Florida Club Tennis team.  Including community service, fundraising, practices, etc.">
+<meta name="keywords" content="XSS, Cross Site Scripting, PHPoor Security">
+<meta name="description" content="Cross Site Scripting XSS">
 </head>
 
 <body>
@@ -36,12 +36,10 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
   <div class="sidebar1">
     
     <ul id="MenuBar2" class="MenuBarVertical">
-    <li><a href="XSS_basics.php">XSS Basics</a>    </li>
-    <li><a href="cross_site_scripting/challenge_1.php">Challenge 1</a></li>
+<li><a href="cross_site_scripting/challenge_1.php">Challenge 1</a></li>
     <li><a href="cross_site_scripting/challenge_2.php">Challenge 2</a></li>
     <li><a href="cross_site_scripting/challenge_3.php">Challenge 3</a></li>
-    <li><a href="cross_site_scripting/challenge_4.php">Challenge 4</a></li>
-    <li><a href="preventing_XSS.php">Preventing XSS</a></li>
+<li><a href="preventing_XSS.php">Preventing XSS</a></li>
   </ul>
   <p>Information on OWASP and the OWASP top ten project can be found <a href="https://www.owasp.org/index.php/Main_Page">here</a></p>
   <!-- end .sidebar --></div>
@@ -85,7 +83,7 @@ ul.nav a { zoom: 1; }  /* the zoom property gives IE the hasLayout trigger it ne
     <!-- end .content --></div>
     <div id="body"><!-- body div for footer --></div>
   <div class="footer">
-    <p>UFClubTennis.com</p>
+    <p>PHPoor Security</p>
     <!-- end .footer --></div>
   <!-- end .container --></div>
 <script type="text/javascript">

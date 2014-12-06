@@ -41,7 +41,7 @@
     <p>Thank you and enjoy!!</p>
   </div>
   <div id="body"><!-- body div for footer --></div>
-  <div class="footer">PHPoorSecurity.com
+  <div class="footer">PHPoor Security
   <!-- end .footer --></div>
   <!-- end .container --></div>
 <script type="text/javascript">

@@ -7,7 +7,7 @@ function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDe
     $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
   }
 
-  $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+ $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
 
   switch ($theType) {
     case "text":
@@ -37,27 +37,32 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO XSSChallenge2 (message, firstname, lastname) VALUES (%s, %s, %s)",
-                       GetSQLValueString($_POST['message'], "text"),
-                       GetSQLValueString($_POST['firstname'], "text"),
-                       GetSQLValueString($_POST['lastname'], "text"));
+  $selectSQL = sprintf("SELECT id FROM Sessions1 WHERE username = %s AND password = %s",
+                       GetSQLValueString($_POST['username'], "text"),
+					   GetSQLValueString($_POST['password'], "text"));
 
   mysql_select_db($database_sandbox, $sandbox);
-  $Result1 = mysql_query($insertSQL, $sandbox) or die(mysql_error());
-
-  $insertGoTo = "challenge_2.php";
-  if (isset($_SERVER['QUERY_STRING'])) {
-    $insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
-    $insertGoTo .= $_SERVER['QUERY_STRING'];
+  $Result1 = mysql_query($selectSQL, $sandbox) or die(mysql_error());
+  if (mysql_num_rows($Result1) == 0) {
+	  $insertGoTo = "challenge_1.php";
+	  if (isset($_SERVER['QUERY_STRING'])) {
+		$insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
+		$insertGoTo .= $_SERVER['QUERY_STRING'];
+	  }
+	  header(sprintf("Location: %s", $insertGoTo));
   }
-  header(sprintf("Location: %s", $insertGoTo));
+  else{
+	  $cookie_name = "SessionID";
+	  $cookie_value = mysql_result($Result1, 0);
+	  setcookie($cookie_name, $cookie_value, 0);
+	  $insertGoTo = "challenge_1.php";
+	  if (isset($_SERVER['QUERY_STRING'])) {
+		$insertGoTo .= (strpos($insertGoTo, '?')) ? "&" : "?";
+		$insertGoTo .= $_SERVER['QUERY_STRING'];
+	  }
+	  header(sprintf("Location: %s", $insertGoTo));
+  }
 }
-
-mysql_select_db($database_sandbox, $sandbox);
-$query_rsRoster = "SELECT firstname, lastname, message FROM XSSChallenge2";
-$rsRoster = mysql_query($query_rsRoster, $sandbox) or die(mysql_error());
-$row_rsRoster = mysql_fetch_assoc($rsRoster);
-$totalRows_rsRoster = mysql_num_rows($rsRoster);
 ?>
 <!doctype html>
 <html>
@@ -92,7 +97,6 @@ form {
 <link href="../SpryAssets/SpryValidationTextarea.css" rel="stylesheet" type="text/css" />
 <script src="../SpryAssets/SpryMenuBar.js" type="text/javascript"></script>
 <script src="../SpryAssets/SpryValidationTextField.js" type="text/javascript"></script>
-<script src="../SpryAssets/SpryValidationTextarea.js" type="text/javascript"></script>
 <meta name="description" content="PHPoor Security" />
 <meta name="keywords" content="PHPoor Security challenge 1" />
 </head>
@@ -102,46 +106,51 @@ form {
   <div class="header"><img src="../_images/Logo.png" alt="Logo" width="900" height="160" />
   <?php include("../_includes/header.php"); ?>
   <!-- end .header --></div>
-  <h1>Super Secure Web Forum 2</h1>
+  <h1>Super Secure Web Session</h1>
   <div class="content">
-    <p>The form on this page sends data to a  database hosted on the server and then displays the name and message associated with that name. Using your knowledge of HTML and scripting, try adding a script that will direct any future users to a different URL. </p>
+  <p>Log in as &quot;user&quot; with the password of &quot;password&quot;.</p>
   <p>&nbsp;</p>
-  <p>*Hint* This form has no restrictions on what can be entered into the &quot;First Name&quot; and &quot;Last Name&quot; text fields.</p>
-    <p>&nbsp;</p>
+  <p>
+  <?php
+	if(!isset($_COOKIE["SessionID"])) {
+    	echo "Cookie named '" . "SessionID" . "' is not yet set!";
+	} else {
+		echo "Cookie '" . "SessionID" . "' is set!<br>";
+		echo "Value is: " . $_COOKIE["SessionID"] . "<br>";
+		echo "As you can probably guess, this sessionID cookie is based on the auto-incrementing primary key of the database where it checks the username/password.  This is something that is common when generating session keys and is a very bad practice.<br><br>";
+		echo "Using software that allows you to send HTTP header data, try to send send another cookie that might give you administrative access!<br><br>";
+		if($_COOKIE["SessionID"] == 2) {
+			echo "Cookie '" . "SessionID" . "' is set!<br>";
+			echo "Value is: " . $_COOKIE["SessionID"] . "<br>";
+			echo "YOU ARE NOW ADMIN.<br>";
+		}
+	}
+	
+?></p>
+  <p>&nbsp;</p>
     <div class="content2">
     <form name="form1" method="POST" action="<?php echo $editFormAction; ?>">
-      <table border="1">
+      <table width="306" border="1">
         <tr>
-          <td>First Name: </td>
-          <td align="left">&nbsp;&nbsp;<span id="sprytextfield1">
-            <input type="text" name="firstname" id="firstname">
+          <td>Username</td>
+          <td align="left"><span id="spryUsername">
+            <label for="username"></label>
+            <input type="text" name="username" id="username">
+            <span class="textfieldRequiredMsg">A value is required.</span></span></td>
+        </tr>
+        <tr>
+          <td width="140">Password: </td>
+          <td width="150" align="left"><span id="spryPassword">
+            <input type="password" name="password" id="password">
           </span></td>
         </tr>
         <tr>
-          <td>Last Name: </td>
-          <td align="left">&nbsp;&nbsp;<span id="spryLastName">
-            <input type="text" name="lastname" id="lastname">
-          </span></td>
-        </tr>
-        <tr>
-          <td>Message: </td>
-          <td>    <p><span id="spryMessage">
-            <textarea name="message" id="message" cols="45" rows="5"></textarea>
-</span></p>
-        </tr>
-        <tr>
-          <td colspan="2" align="center"><input type="submit" name="submit" id="submit" value="Submit">  </td>
+          <td colspan="2" align="center"><input type="submit" name="submit" id="submit" value="Login">  </td>
         </tr>
       </table>
       <input type="hidden" name="MM_insert" value="form1">
     </form>
     </div>
-    <p>&nbsp;</p>
-    <h2>Message Board:</h2>
-    <?php do { ?>
-      <p><?php echo $row_rsRoster['firstname']; ?> <?php echo $row_rsRoster['lastname']; ?></p>
-      <p><?php echo $row_rsRoster['message']; ?></p>
-      <?php } while ($row_rsRoster = mysql_fetch_assoc($rsRoster)); ?>
 <!-- end .content --></div>
   <div id="body"><!-- body div for footer --></div>
   <div class="footer">PHPoor Security
@@ -149,12 +158,8 @@ form {
   <!-- end .container --></div>
 <script type="text/javascript">
 <?php include("../_includes/menuBar1.php"); ?>
-var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"], hint:"John"});
-var sprytextfield2 = new Spry.Widget.ValidationTextField("spryLastName", "none", {validateOn:["blur"], hint:"Smith"});
-var sprytextarea1 = new Spry.Widget.ValidationTextarea("spryMessage", {isRequired:false});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("spryPassword", "none", {validateOn:["blur"]});
+var sprytextfield1 = new Spry.Widget.ValidationTextField("spryUsername");
 </script> 
 </body>
 </html>
-<?php
-mysql_free_result($rsRoster);
-?>

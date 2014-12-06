@@ -1,4 +1,4 @@
-<?php require_once('../Connections/tournamentroster.php'); ?>
+<?php require_once('../Connections/sandboxDatabase.php'); ?>
 <?php
 if (!function_exists("GetSQLValueString")) {
 function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
@@ -37,15 +37,12 @@ if (isset($_SERVER['QUERY_STRING'])) {
 }
 
 if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
-  $insertSQL = sprintf("INSERT INTO challenge (ufid, firstname, lastname, phoneNumber, email) VALUES (%s, %s, %s, %s, %s)",
-                       GetSQLValueString($_POST['ufid'], "text"),
-                       GetSQLValueString($_POST['firstname'], "text"),
-                       GetSQLValueString($_POST['lastname'], "text"),
-                       GetSQLValueString($_POST['phonenumber'], "text"),
-                       GetSQLValueString($_POST['email'], "text"));
+  $insertSQL = sprintf("INSERT INTO Injections1 (firstName, lastName) VALUES (%s, %s)",
+                       GetSQLValueString($_POST['firstName'], "text"),
+                       GetSQLValueString($_POST['lastName'], "text"));
 
-  mysql_select_db($database_tournamentroster, $tournamentroster);
-  $Result1 = mysql_query($insertSQL, $tournamentroster) or die(mysql_error());
+  mysql_select_db($database_sandbox, $sandbox);
+  $Result1 = mysql_query($insertSQL, $sandbox) or die(mysql_error());
 
   $insertGoTo = "challenge_1.php";
   if (isset($_SERVER['QUERY_STRING'])) {
@@ -55,9 +52,9 @@ if ((isset($_POST["MM_insert"])) && ($_POST["MM_insert"] == "form1")) {
   header(sprintf("Location: %s", $insertGoTo));
 }
 
-mysql_select_db($database_tournamentroster, $tournamentroster);
-$query_rsRoster = "SELECT firstname, lastname FROM challenge ORDER BY firstname ASC";
-$rsRoster = mysql_query($query_rsRoster, $tournamentroster) or die(mysql_error());
+mysql_select_db($database_sandbox, $sandbox);
+$query_rsRoster = "SELECT firstname, lastname FROM Injections1";
+$rsRoster = mysql_query($query_rsRoster, $sandbox) or die(mysql_error());
 $row_rsRoster = mysql_fetch_assoc($rsRoster);
 $totalRows_rsRoster = mysql_num_rows($rsRoster);
 ?>
@@ -107,7 +104,7 @@ form {
   <div class="content">
   <p>This first challenge is relatively simple.</p>
   <p>&nbsp;</p>
-  <p>The form on this page sends data to a localhost database and then displays the first and last name of those who sign up. Using your knowledge of HTML try adding a name that will appear in italics when displayed in the &quot;Current Applicants&quot; list. </p>
+  <p>The form on this page sends data to a locally hosted database and then displays the first and last name of those who sign up. Using your knowledge of HTML try adding a name that will appear in <u><strong><i>bold underlined italics</i></strong></u> when displayed in the &quot;Current Applicants&quot; list. </p>
   <p>&nbsp;</p>
   <p>*Hint* This form has no restrictions on what can be entered into the &quot;First Name&quot; and &quot;Last Name&quot; text fields.</p>
     <p>&nbsp;</p>
@@ -116,42 +113,23 @@ form {
       <table width="306" border="1">
         <tr>
           <td width="140">First Name: </td>
-          <td width="150"><span id="sprytextfield1">
-            <input type="text" name="firstname" id="firstname">
+          <td width="150" align="left"><span id="spryUsername">
+            <input type="text" name="firstName" id="firstName">
           </span></td>
         </tr>
         <tr>
           <td width="140">Last Name: </td>
-          <td><span id="spryLastName">
-            <input type="text" name="lastname" id="lastname">
+          <td width="150" align="left"><span id="spryPassword">
+            <input type="text" name="lastName" id="lastName">
           </span></td>
         </tr>
         <tr>
-          <td width="140">ID: </td>
-          <td><span id="spryUFID">
-          <input type="text" name="ufid" id="ufid">
-          </span></td>
-        </tr>
-        <tr>
-          <td width="140">Phone Number: </td>
-          <td><span id="spryPhone">
-          <input type="text" name="phonenumber" id="phonenumber">
-          </span></td>
-        </tr>
-        <tr>
-          <td width="140">Email: </td>
-          <td><span id="spryEmail">
-          <input type="text" name="email" id="email">
-          </span></td>
-        </tr>
-        <tr>
-          <td colspan="2" align="center"><input type="submit" name="submit" id="submit" value="Submit">  </td>
+          <td colspan="2" align="center"><input type="submit" name="submit" id="submit" value="Sign Up">  </td>
         </tr>
       </table>
       <input type="hidden" name="MM_insert" value="form1">
     </form>
     </div>
-    <p>&nbsp;</p>
     <h2>Current Applicants:</h2>
     <?php do { ?>
       <p><?php echo $row_rsRoster['firstname']; ?> <?php echo $row_rsRoster['lastname']; ?></p>
@@ -163,14 +141,8 @@ form {
   <!-- end .container --></div>
 <script type="text/javascript">
 <?php include("../_includes/menuBar1.php"); ?>
-var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"], hint:"John"});
-var sprytextfield2 = new Spry.Widget.ValidationTextField("spryLastName", "none", {validateOn:["blur"], hint:"Smith"});
-var sprytextfield3 = new Spry.Widget.ValidationTextField("spryUFID", "custom", {validateOn:["blur"], hint:"1234-5678", pattern:"0000-0000"});
-var sprytextfield4 = new Spry.Widget.ValidationTextField("spryPhone", "phone_number", {validateOn:["blur"], hint:"(123) 456-7890"});
-var sprytextfield5 = new Spry.Widget.ValidationTextField("spryEmail", "email", {validateOn:["blur"], hint:"JohnS@xyz.com"});
+var sprytextfield1 = new Spry.Widget.ValidationTextField("spryUsername", "none", {validateOn:["blur"], hint:"SuperHacker345"});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("spryPassword", "none", {validateOn:["blur"]});
 </script> 
 </body>
 </html>
-<?php
-mysql_free_result($rsRoster);
-?>
