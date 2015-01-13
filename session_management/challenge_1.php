@@ -119,7 +119,7 @@ form {
 		echo "Value is: " . $_COOKIE["SessionID"] . "<br>";
 		echo "As you can probably guess, this sessionID cookie is based on the auto-incrementing primary key of the database where it checks the username/password.  This is something that is common when generating session keys and is a very bad practice.<br><br>";
 		echo "Using software that allows you to send HTTP header data, try to send send another cookie that might give you administrative access!<br><br>";
-		if($_COOKIE["SessionID"] == 2) {
+		if($_COOKIE["SessionID"] == 87634) {
 			echo "Cookie '" . "SessionID" . "' is set!<br>";
 			echo "Value is: " . $_COOKIE["SessionID"] . "<br>";
 			echo "YOU ARE NOW ADMIN.<br>";
